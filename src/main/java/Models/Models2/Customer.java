@@ -4,17 +4,19 @@ public class Customer {
     private Integer ID;
     private String Name;
     private String TypeBuyer;
-    private String New;
-    private String Regular;
-    private String Vip;
+    private static int currentId = 0;
 
 
-    public Customer(Integer ID, String Name, String TypeBuyer) {
-        this.ID = ID;
-        this.Name = Name;
-        this.TypeBuyer = TypeBuyer;
+    public Customer(String name, String typeBuyer) {
+        this.ID = ++currentId;
+        this.Name = name;
+        this.TypeBuyer = typeBuyer;
     }
 
+
+    public static int getCurrentId() {
+        return currentId;
+    }
 
     public String getTypeBuyer() {
         return TypeBuyer;
@@ -26,5 +28,13 @@ public class Customer {
 
     public Integer getID() {
         return ID;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setTypeBuyer(String typeBuyer) {
+        TypeBuyer = typeBuyer;
     }
 }
