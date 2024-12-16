@@ -16,12 +16,12 @@ public class ProductRepository extends AbstractRepository{
     }
 
     @Override
-    Object load() {
+    Object load(String path) {
         return null;
     }
 
     @Override
-    boolean save() {
+    boolean save(String path) {
         return false;
     }
 

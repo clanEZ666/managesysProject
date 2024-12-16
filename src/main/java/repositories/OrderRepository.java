@@ -8,9 +8,6 @@ import java.util.List;
 public class OrderRepository extends AbstractRepository{
     private List<Order> data = new ArrayList<>();
 
-    void add(Order o){
-        data.add(o);
-    }
 
     @Override
     void add(Object o) {
@@ -20,12 +17,13 @@ public class OrderRepository extends AbstractRepository{
     }
 
     @Override
-    Object load() {
+    Object load(String path) {
         return null;
     }
 
     @Override
-    boolean save() {
+    boolean save(String path) {
         return false;
     }
+
 }

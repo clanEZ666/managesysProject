@@ -8,10 +8,6 @@ import java.util.List;
 public class CustomerRepository extends AbstractRepository{
     private List<Customer> data = new ArrayList<>();
 
-    void add(Customer c){
-        data.add(c);
-    }
-
     @Override
     void add(Object o) {
         Customer c = (Customer) o;
@@ -19,12 +15,12 @@ public class CustomerRepository extends AbstractRepository{
     }
 
     @Override
-    Object load() {
+    Object load(String path) {
         return null;
     }
 
     @Override
-    boolean save() {
+    boolean save(String path) {
         return false;
     }
 }
