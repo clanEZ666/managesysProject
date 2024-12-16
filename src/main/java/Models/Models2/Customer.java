@@ -1,16 +1,27 @@
 package Models.Models2;
 
 public class Customer {
-    private Integer ID;
-    private String Name;
-    private String TypeBuyer;
-    private static int currentId = 0;
+
+    private static int idCounter = 1; // Счетчик для уникальных ID
+    private int id;
+    private String name;
+    private CustomerType typeBuyer;
 
 
-    public Customer(String name, String typeBuyer) {
-        this.ID = ++currentId;
-        this.Name = name;
-        this.TypeBuyer = typeBuyer;
+    public Customer(String name, CustomerType typeBuyer) {
+        this.id = idCounter++;
+        this.name = name;
+        this.typeBuyer = typeBuyer;
+    }
+
+
+    public int getId() {
+        return id;
+
+    }
+
+    public String getName() {
+        return name;
     }
 
 
@@ -22,12 +33,15 @@ public class Customer {
         return TypeBuyer;
     }
 
-    public String getName() {
-        return Name;
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name + ", Type: " + typeBuyer;
     }
 
-    public Integer getID() {
-        return ID;
+    public enum CustomerType {
+        NEW,
+        REGULAR,
+        VIP
     }
 
     public void setName(String name) {
