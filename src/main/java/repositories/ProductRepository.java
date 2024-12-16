@@ -2,28 +2,40 @@ package repositories;
 
 import Models.Models2.Product;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class ProductRepository extends AbstractRepository{
-    private List<Product> data = new ArrayList<>();
-
+    private Map<Integer, Product> data = new HashMap<>();
 
     @Override
-    void add(Object o) {
-        Product p = (Product) o;
-        data.add(p);
+    public void add(Object o) {
+        Product c = (Product) o;
+        data.put(c.getID(), c);
     }
 
     @Override
-    Object load(String path) {
+    public Object load(String path) {
         return null;
     }
 
     @Override
-    boolean save(String path) {
+    public boolean save(String path) {
 
         return false;
+    }
+
+    public void show(){
+        System.out.println(data.toString());
+    }
+
+    public Product getById(Integer id){
+        data.keySet().stream()
+                .filter(ID -> Objects.equals(ID, id))
+                .findFirst()
+                .orElseThrow(() -> new ProductNotFoundException("Покупатель с ID " + id + " не найден."));
+        return data.get(id);
     }
 
 }
