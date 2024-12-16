@@ -1,30 +1,37 @@
 package Models.Models2;
 
 public class Customer {
-    private Integer ID;
-    private String Name;
-    private String TypeBuyer;
-    private String New;
-    private String Regular;
-    private String Vip;
+    private static int idCounter = 1; // Счетчик для уникальных ID
+    private int id;
+    private String name;
+    private CustomerType typeBuyer;
 
-
-    public Customer(Integer ID, String Name, String TypeBuyer) {
-        this.ID = ID;
-        this.Name = Name;
-        this.TypeBuyer = TypeBuyer;
+    public Customer(String name, CustomerType typeBuyer) {
+        this.id = idCounter++;
+        this.name = name;
+        this.typeBuyer = typeBuyer;
     }
 
-
-    public String getTypeBuyer() {
-        return TypeBuyer;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
-    public Integer getID() {
-        return ID;
+    public CustomerType getTypeBuyer() {
+        return typeBuyer;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name + ", Type: " + typeBuyer;
+    }
+
+    public enum CustomerType {
+        NEW,
+        REGULAR,
+        VIP
     }
 }
