@@ -1,7 +1,7 @@
 package repositories;
 
-abstract class AbstractRepository {
-    abstract void add(Object o);
-    abstract Object load(String path);
-    abstract boolean save(String path);
+public abstract class AbstractRepository {
+    abstract public void add(Object o);
+    abstract public Object load(String path);
+    abstract public boolean save(String path);
 }
