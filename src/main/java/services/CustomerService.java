@@ -35,4 +35,5 @@ public class CustomerService {
                 .findFirst()
                 .orElseThrow(() -> new CustomerNotFoundException("Покупатель с ID " + id + " не найден."));
     }
+
 }

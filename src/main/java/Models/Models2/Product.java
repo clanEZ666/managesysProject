@@ -5,17 +5,24 @@ public class Product {
     private String title;
     private double price;
     private String category;
-    private String Food;
-    private String Electronics;
-    private String Clothing;
+    private static int currentId = 0;
 
 
-    public Product(String title, double price, String category) {
+
+    public Product(int ID, String title, double price, String category) {
+        this.ID = ++currentId;
         this.title = title;
         this.price = price;
         this.category = category;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     public String getTitle() {
         return title;
@@ -23,6 +30,10 @@ public class Product {
 
     public String getCategory() {
         return category;
+    }
+
+    public static int getCurrentId() {
+        return currentId;
     }
 
     public double getPrice() {

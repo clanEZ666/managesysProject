@@ -1,10 +1,12 @@
 package Models.Models2;
 
 public class Customer {
+
     private static int idCounter = 1; // Счетчик для уникальных ID
     private int id;
     private String name;
     private CustomerType typeBuyer;
+
 
     public Customer(String name, CustomerType typeBuyer) {
         this.id = idCounter++;
@@ -12,16 +14,23 @@ public class Customer {
         this.typeBuyer = typeBuyer;
     }
 
+
     public int getId() {
         return id;
+
     }
 
     public String getName() {
         return name;
     }
 
-    public CustomerType getTypeBuyer() {
-        return typeBuyer;
+
+    public static int getCurrentId() {
+        return currentId;
+    }
+
+    public String getTypeBuyer() {
+        return TypeBuyer;
     }
 
     @Override
@@ -33,5 +42,13 @@ public class Customer {
         NEW,
         REGULAR,
         VIP
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setTypeBuyer(String typeBuyer) {
+        TypeBuyer = typeBuyer;
     }
 }
