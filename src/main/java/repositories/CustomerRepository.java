@@ -2,27 +2,29 @@ package repositories;
 
 import Models.Models2.Customer;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CustomerRepository extends AbstractRepository{
+    private final List<Customer> data = new ArrayList<>();
 
-    private Map<Integer, Customer> data = new HashMap<>();
-
-    @Override
-    public void add(Object o) {
-        Customer c = (Customer) o;
-        data.put(c.getID(), c);
-
+    public void add(Customer customer) {
+        data.add(customer);
+    }
 
     @Override
-    public Object load(String path) {
+    void add(Object o) {
+
+    }
+
+    @Override
+    Object load(String path) {
         return null;
     }
 
     @Override
-    public boolean save(String path) {
+    boolean save(String path) {
         return false;
     }
 }

@@ -1,6 +1,7 @@
 package services;
 
 import Models.Models2.Product;
+import exception.ProductNotFoundException;
 import repositories.ProductRepository;
 
 public class ProductService {
@@ -16,7 +17,7 @@ public class ProductService {
         repository.show();
     }
 
-    public void getByID(int id) throws ProductNotFoundException{
+    public void getByID(int id) throws ProductNotFoundException {
         try{
             System.out.println(repository.getByID());
         } catch (ProductNotFoundException e){

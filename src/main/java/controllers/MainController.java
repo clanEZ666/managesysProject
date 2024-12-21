@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class MainController {
 
-    private final CustomerService customerService = new CustomerService()
+    private final CustomerService customerService = new CustomerService();
 
 
 
