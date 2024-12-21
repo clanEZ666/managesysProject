@@ -3,7 +3,7 @@ package services;
 import Models.Models2.Customer;
 import exception.CustomerNotFoundException;
 import repositories.CustomerRepository;
-import java.util.List;
+import java.util.Map;
 
 public class CustomerService {
     private final CustomerRepository customerRepository;
@@ -16,25 +16,33 @@ public class CustomerService {
         Customer customer = new Customer(name, typeBuyer);
         customerRepository.add(customer);
     }
+    public void saveCustomers(String filename) {
+        customerRepository.save(filename);
+    }
+    public void loadCustomers(String filename) {
+        customerRepository.load(filename);
+    }
 
 
     public void showAllCustomers() {
-        List<Customer> customers = customerRepository.getAllCustomers();
+        Map<Integer, Customer> customers = customerRepository.getAllCustomers();
         if (customers.isEmpty()) {
             System.out.println("Нет покупателей.");
             return;
         }
-        for (Customer customer : customers) {
+        for (Customer customer : customers.values()) {
             System.out.println(customer);
         }
     }
 
     public Customer findCustomerById(int id) {
-        List<Customer> customers = customerRepository.getAllCustomers();
-        return customers.stream()
+        Map<Integer ,Customer> customers = customerRepository.getAllCustomers();
+        return customers.values().stream()
                 .filter(customer -> customer.getId() == id)
                 .findFirst()
                 .orElseThrow(() -> new CustomerNotFoundException("Покупатель с ID " + id + " не найден."));
+
+
     }
 }
 

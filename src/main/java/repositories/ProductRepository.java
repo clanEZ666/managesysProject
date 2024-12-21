@@ -1,6 +1,7 @@
 package repositories;
 
 import Models.Models2.Product;
+import exception.ProductNotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
