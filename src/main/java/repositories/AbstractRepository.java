@@ -5,3 +5,4 @@ public abstract class AbstractRepository {
     abstract public Object load(String path);
     abstract public boolean save(String path);
 }
+
