@@ -16,6 +16,12 @@ public class CustomerService {
         Customer customer = new Customer(name, typeBuyer);
         customerRepository.add(customer);
     }
+    public void saveCustomers(String filename) {
+        customerRepository.save(filename);
+    }
+    public void loadCustomers(String filename) {
+        customerRepository.load(filename);
+    }
 
 
     public void showAllCustomers() {
