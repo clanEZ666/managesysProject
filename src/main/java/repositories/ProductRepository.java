@@ -17,11 +17,20 @@ public class ProductRepository extends AbstractRepository{
     }
 
     @Override
-    public Object load(String path) {
+    public Object load(Object o) {
         return null;
     }
 
     @Override
+    public boolean save(Object o) {
+        return false;
+    }
+
+
+    public Object load(String path) {
+        return null;
+    }
+
     public boolean save(String path) {
 
         return false;

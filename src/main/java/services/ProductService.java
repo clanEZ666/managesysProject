@@ -9,8 +9,8 @@ public class ProductService {
     private final ProductRepository repository = new ProductRepository();
 
     public void addProduct(String title, double price, String category){
-        Product prd = new Product(title, price, category);
-        repository.add(prd);
+////        Product prd = new Product(title, price, category);
+//        repository.add(prd);
     }
 
     public void showAllProducts(){
@@ -19,7 +19,7 @@ public class ProductService {
 
     public void getByID(int id) throws ProductNotFoundException {
         try{
-            System.out.println(repository.getByID());
+//            System.out.println(repository.getByID());
         } catch (ProductNotFoundException e){
             System.out.println(e);
         }

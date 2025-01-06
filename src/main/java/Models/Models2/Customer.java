@@ -3,11 +3,17 @@ package Models.Models2;
 public class Customer {
     private int id;
     private String name;
-    private CustomerType type;
+    private CustomerType customerType;
 
-    public Customer(String name, CustomerType type) {
+    public enum CustomerType {
+        NEW,
+        REGULAR,
+        VIP
+    }
+
+    public Customer(String name, CustomerType customerType) {
         this.name = name;
-        this.type = type;
+        this.customerType = customerType;
     }
 
     public void setId(int id) {
@@ -23,15 +29,11 @@ public class Customer {
     }
 
     public CustomerType getType() {
-        return type;
+        return customerType;
     }
 
     @Override
     public String toString() {
-        return "Customer{id=" + id + ", name='" + name + "', type=" + type + "}";
-    }
-
-    public enum CustomerType {
-        NEW, REGULAR, VIP
+        return "Customer{id=" + id + ", name='" + name + "', type=" + customerType + "}";
     }
 }

@@ -6,22 +6,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OrderRepository extends AbstractRepository{
-    private Map<Integer, Order> data = new HashMap<>();
-
     @Override
     public void add(Object o) {
-        Order c = (Order) o;
-        data.put(c.getID(), c);
+
     }
 
     @Override
-    public Object load(String path) {
+    public Object load(Object o) {
         return null;
     }
 
     @Override
-    public boolean save(String path) {
+    public boolean save(Object o) {
         return false;
     }
-
 }
+//    private Map<Integer, Order> data = new HashMap<>();
+//
+//    @Override
+//    public void add(Object o) {
+//        Order c = (Order) o;
+////        data.put(c.getID(), c);
+//    }
+//
+//    @Override
+//    public Object load(String path) {
+//        return null;
+//    }
+//
+//    @Override
+//    public boolean save(String path) {
+//        return false;
+//    }
+//
+//}

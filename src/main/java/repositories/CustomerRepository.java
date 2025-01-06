@@ -8,14 +8,24 @@ import java.util.Map;
 
 public class CustomerRepository extends AbstractRepository {
     private final Map<Integer, Customer> data = new HashMap<>();
-    private int currentId = 1; // Для генерации уникальных ID
+    private int currentId = 1;
 
+    /**
+     * Получить всех покупателей.
+     *
+     * @return Копия карты с данными о покупателях.
+     */
     public Map<Integer, Customer> getAllCustomers() {
         return new HashMap<>(data);
     }
 
+    /**
+     * Загрузить данные из файла.
+     *
+     * @param o Имя файла для загрузки.
+     * @return null
+     */
     @Override
-
     public Object load(Object o) {
         if (o instanceof String) {
             deserializeFromFile((String) o);
@@ -24,6 +34,11 @@ public class CustomerRepository extends AbstractRepository {
         return null;
     }
 
+    /**
+     * Добавить нового покупателя.
+     *
+     * @param o Объект типа Customer для добавления.
+     */
     @Override
     public void add(Object o) {
         if (o instanceof Customer) {
@@ -33,6 +48,12 @@ public class CustomerRepository extends AbstractRepository {
         }
     }
 
+    /**
+     * Сохранить данные в файл.
+     *
+     * @param o Имя файла для сохранения.
+     * @return true, если успешно сохранено, иначе false.
+     */
     @Override
     public boolean save(Object o) {
         if (o instanceof String) {
@@ -42,6 +63,11 @@ public class CustomerRepository extends AbstractRepository {
         return false;
     }
 
+    /**
+     * Записать данные в файл.
+     *
+     * @param filename Имя файла для записи.
+     */
     public void serializeToFile(String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
             for (Customer customer : data.values()) {
@@ -53,6 +79,11 @@ public class CustomerRepository extends AbstractRepository {
         }
     }
 
+    /**
+     * Прочитать данные из файла.
+     *
+     * @param filename Имя файла для чтения.
+     */
     public void deserializeFromFile(String filename) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -63,7 +94,7 @@ public class CustomerRepository extends AbstractRepository {
                 Customer.CustomerType typeBuyer = Customer.CustomerType.valueOf(parts[2].toUpperCase());
 
                 Customer customer = new Customer(name, typeBuyer);
-                customer.setId(id); // Устанавливаем ID
+                customer.setId(id);
                 data.put(id, customer);
             }
         } catch (IOException e) {
