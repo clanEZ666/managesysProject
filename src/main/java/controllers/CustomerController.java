@@ -3,8 +3,10 @@ package controllers;
 import Models.Models2.Customer;
 import services.CustomerService;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class CustomerController {
+    private static final Logger logger = Logger.getLogger(CustomerController.class.getName());
     private final CustomerService customerService;
     private final Scanner scanner;
 
@@ -17,6 +19,7 @@ public class CustomerController {
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
         this.scanner = new Scanner(System.in);
+        
     }
 
     /**
@@ -29,7 +32,6 @@ public class CustomerController {
 
         while (true) {
             Message.START_MENU.printMessage();
-
             int choice = scanner.nextInt();
             scanner.nextLine();
 
@@ -79,9 +81,10 @@ public class CustomerController {
             Customer.CustomerType typeBuyer = Customer.CustomerType.valueOf(typeInput.toUpperCase());
             customerService.addCustomer(name, typeBuyer);
             Message.CUSTOMER_ADDED.printMessage();
-
+            logger.info("Покупатель добавлен: " + name + ", Тип: " + typeBuyer);
         } catch (IllegalArgumentException e) {
             Message.INVALID_CHOICE.printMessage();
+            logger.warning("Неверный тип покупателя: " + typeInput);
         }
     }
 
@@ -96,6 +99,7 @@ public class CustomerController {
         String filename = scanner.nextLine();
         customerService.saveCustomers(filename);
         Message.DATA_SAVED_TO_FILE.printMessage(filename);
+
     }
 
     /**
@@ -109,6 +113,7 @@ public class CustomerController {
         String filename = scanner.nextLine();
         customerService.loadCustomers(filename);
         Message.DATA_LOADED_FROM_FILE.printMessage(filename);
+
     }
 
     /**

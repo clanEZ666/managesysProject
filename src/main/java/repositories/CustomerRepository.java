@@ -1,12 +1,15 @@
 package repositories;
 
 import Models.Models2.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CustomerRepository extends AbstractRepository {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final Map<Integer, Customer> data = new HashMap<>();
     private int currentId = 1;
 
@@ -30,6 +33,7 @@ public class CustomerRepository extends AbstractRepository {
         if (o instanceof String) {
             deserializeFromFile((String) o);
             return null;
+
         }
         return null;
     }
@@ -43,8 +47,9 @@ public class CustomerRepository extends AbstractRepository {
     public void add(Object o) {
         if (o instanceof Customer) {
             Customer customer = (Customer) o;
-            customer.setId(currentId++); // Устанавливаем уникальный ID
+            customer.setId(currentId++);
             data.put(customer.getId(), customer);
+            logger.info("Покупатель добавлен: " + customer);
         }
     }
 
@@ -75,7 +80,8 @@ public class CustomerRepository extends AbstractRepository {
                 writer.newLine();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Ошибка записи в файл: ", e);
+            throw new RuntimeException("Ошибка записи в файл", e);
         }
     }
 
@@ -98,9 +104,11 @@ public class CustomerRepository extends AbstractRepository {
                 data.put(id, customer);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("Ошибка чтения из файла: ", e);
+            throw new RuntimeException("Ошибка чтения из файла", e);
         } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка при чтении типа покупателя: " + e.getMessage());
+            logger.error("Ошибка типа клиента: ", e);
+            throw new RuntimeException("Ошибка типа клиента", e);
         }
     }
 }
