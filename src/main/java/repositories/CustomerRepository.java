@@ -108,6 +108,7 @@ public class CustomerRepository extends AbstractRepository {
         } catch (IllegalArgumentException e) {
             logger.error("Ошибка типа клиента: ", e);
             throw new RuntimeException("Ошибка типа клиента", e);
+
         }
     }
 }
