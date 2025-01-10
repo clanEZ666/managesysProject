@@ -7,5 +7,7 @@ public class CustomerNotFoundException extends RuntimeException {
     public CustomerNotFoundException(String message) {
     super(message);
     log.warn(message);
+
     }
+    private static final Logger log = LoggerFactory.getLogger(CustomerNotFoundException.class);
 }
