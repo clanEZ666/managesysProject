@@ -1,11 +1,19 @@
 package org.example;
 
+import controllers.CustomerController;
+import repositories.CustomerRepository;
+import services.CustomerService;
+
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
+        CustomerRepository customerRepository = new CustomerRepository();
+        CustomerService customerService = new CustomerService(customerRepository);
+        CustomerController customerController = new CustomerController(customerService);
 
-        System.out.println("Hello world!");
-        System.out.println("Hello world!");
-        System.out.println("Hello world!");
-
+        customerController.start();
+        customerController.closeScanner();
     }
 }
+
