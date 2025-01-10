@@ -7,6 +7,5 @@ public abstract class AbstractRepository {
     abstract public Object load(Object o);
     abstract public boolean save(Object o);
 
-
 }
 
