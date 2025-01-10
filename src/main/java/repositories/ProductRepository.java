@@ -1,7 +1,10 @@
 package repositories;
 
 import Models.Models2.Product;
+import controllers.ProductController;
 import exception.CorraptedFileDataException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -14,7 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ProductRepository extends AbstractRepository {
+public class ProductRepository {
+    private final static Logger log = LoggerFactory.getLogger(ProductRepository.class);
     private final Path currentIdPath;
     private final Path productsPath;
 
@@ -24,6 +28,7 @@ public class ProductRepository extends AbstractRepository {
      * @param savePath - строка путь в файловой системе
      */
     public ProductRepository(String savePath) {
+        log.trace("Создание ProductRepository");
         Path savePath1 = Paths.get(savePath);
         this.currentIdPath = savePath1.resolve("currentProductId.txt");
         this.productsPath = savePath1.resolve("products.txt");
@@ -36,6 +41,7 @@ public class ProductRepository extends AbstractRepository {
      * Загрузка последнего используемого ID
      */
     public void preloadCurrentId() {
+        log.trace("Начало метода preloadCurrentId()");
         try {
             if (Files.exists(currentIdPath)) {
                 String stringId = Files.readString(currentIdPath).trim();
@@ -53,6 +59,7 @@ public class ProductRepository extends AbstractRepository {
     }
 
     public void preloadProductsFile() {
+        log.trace("Начало метода preloadProductsFile()");
         try {
             if (!Files.exists(productsPath)) {
                 Files.createDirectories(productsPath.getParent());
@@ -64,6 +71,7 @@ public class ProductRepository extends AbstractRepository {
     }
 
     private static String objectToData(Object o) {
+        log.trace("Начало метода objectToData()");
         if (o instanceof Product) {
             Product product = (Product) o;
             StringBuilder sb = new StringBuilder();
@@ -71,12 +79,13 @@ public class ProductRepository extends AbstractRepository {
                     .append(';').append(product.getProductCategory()).append('\n');
             return sb.toString();
         } else {
-            System.out.println("Ожидаемый класс - Product, получен класс - " + o.getClass());
+            log.warn("Ожидаемый класс - Product, получен класс - {}", o.getClass());
             return "";
         }
     }
 
     private static Object dataToObject(String data) throws CorraptedFileDataException {
+        log.trace("Начало метода dataToObject()");
         String[] fields = data.split(";");
         if (fields.length != 4) {
             throw new CorraptedFileDataException("Не возможно преобразовать строку: " + data + " в объект");
@@ -93,7 +102,7 @@ public class ProductRepository extends AbstractRepository {
     }
 
     public Map<Integer, Object> loadMap() {
-        Map<Integer, Product> productMap = new HashMap<>();
+        log.trace("Начало метода loadMap()");
         try {
             List<String> mapData = Files.readAllLines(productsPath);
             return mapData.stream().collect(Collectors.toMap(
@@ -107,12 +116,13 @@ public class ProductRepository extends AbstractRepository {
                     }
             ));
         } catch (IOException e) {
-            System.out.println("Ошибка при загрузке данных из products.txt");
+            log.warn("Ошибка при загрузке данных из products.txt");
             return new HashMap<>();
         }
     }
 
     public int loadCurrentId() throws CorraptedFileDataException {
+        log.trace("Начало метода loadCurrentId()");
         try {
             List<String> curId = Files.readAllLines(currentIdPath);
             if (curId.size() != 1) {
@@ -131,18 +141,20 @@ public class ProductRepository extends AbstractRepository {
     }
 
     public boolean save(Object o) {
+        log.trace("Начало метода save()");
         boolean ok = false;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(productsPath.toFile(), true))) {
             writer.write(objectToData(o));
             ok = true;
         } catch (IOException e) {
-            System.out.println("Ошибка при сохранении в файл products.txt");
+            log.warn("Ошибка при сохранении в файл products.txt");
         }
 
         return ok;
     }
 
     private void saveCurrentId(int curId) {
+        log.trace("Начало метода saveCurrentId()");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentIdPath.toFile(), true))) {
             writer.write(String.valueOf(curId));
         } catch (IOException e) {

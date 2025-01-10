@@ -1,35 +1,42 @@
 package controllers;
 
 import Models.Models2.Product;
+import org.slf4j.LoggerFactory;
 import services.ProductService;
 
 import java.util.Scanner;
-
+import org.slf4j.Logger;
 public class ProductController {
-
+    private final static Logger log = LoggerFactory.getLogger(ProductController.class);
     private final Scanner scanner;
 
     private final ProductService service;
 
     public ProductController(String path) {
+        log.trace("Создание ProductController");
         this.service = new ProductService(path);
         this.scanner = new Scanner(System.in);
     }
 
     public void start() {
+        log.trace("Начало метода ProductController.start()");
         Messages.START_MESSAGE.soutMassage();
         boolean goOn = true;
         String s;
         while (goOn) {
             s = scanner.nextLine().trim();
+            log.debug("Получено сообщение {}", s);
             switch (s.charAt(0)) {
                 case '1':
+                    log.info("сообщение воспринято как 1");
                     add();
                     break;
                 case '2':
+                    log.info("сообщение воспринято как 2");
                     show();
                     break;
                 case '0':
+                    log.info("сообщение воспринято не как 1 или 2");
                     goOn = false;
                     break;
                 default:
@@ -39,6 +46,7 @@ public class ProductController {
     }
 
     public void add() {
+        log.trace("Начало метода ProductController.add()");
         System.out.println();
         String s;
         String title;
@@ -48,6 +56,7 @@ public class ProductController {
         do {
             Messages.GET_TITLE.soutMassage();
             s = scanner.nextLine();
+            log.debug("Получено сообщение {}", s);
             title = s;
             break;
         } while (true);
@@ -56,6 +65,7 @@ public class ProductController {
             Messages.GET_PRICE.soutMassage();
             try {
                 s = scanner.nextLine();
+                log.debug("Получено сообщение {}", s);
                 price = Double.parseDouble(s.trim());
                 break;
             } catch (NumberFormatException e) {
@@ -67,6 +77,7 @@ public class ProductController {
             Messages.GET_CATEGORY.soutMassage();
             try {
                 s = scanner.nextLine();
+                log.debug("Получено сообщение {}", s);
                 category = Product.ProductCategory.valueOf(s.toUpperCase());
                 break;
             } catch (IllegalArgumentException e) {
@@ -78,6 +89,7 @@ public class ProductController {
     }
 
     public void show() {
+        log.trace("Начало метода ProductController.show()");
         service.showAll();
     }
 
