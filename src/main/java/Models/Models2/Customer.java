@@ -2,8 +2,8 @@ package Models.Models2;
 
 public class Customer {
     private int id;
-    private String name;
-    private CustomerType customerType;
+    private final String name;
+    private final CustomerType customerType;
 
     public enum CustomerType {
         NEW,

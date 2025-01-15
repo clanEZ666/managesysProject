@@ -127,12 +127,13 @@ public class CustomerController {
 
     enum Message {
         START_MENU(
-                "===== Управление покупателями =====\n" +
-                        "1. Добавить покупателя\n" +
-                        "2. Показать всех покупателей\n" +
-                        "3. Сохранить покупателей\n" +
-                        "4. Загрузить покупателей\n" +
-                        "0. Назад"),
+                """
+                        ===== Управление покупателями =====
+                        1. Добавить покупателя
+                        2. Показать всех покупателей
+                        3. Сохранить покупателей
+                        4. Загрузить покупателей
+                        0. Назад"""),
 
         EXIT_CUSTOMER_MANAGEMENT("Выход из управления покупателями."),
         INVALID_CHOICE("Некорректный выбор. Пожалуйста, попробуйте снова."),
@@ -146,7 +147,7 @@ public class CustomerController {
         ENTER_FILENAME_FOR_LOAD("Введите имя файла для загрузки: ");
 
 
-        private String message;
+        private final String message;
 
         Message(String massage) {
             this.message = massage;
@@ -169,6 +170,7 @@ public class CustomerController {
         public void printMessage(String arg) {
             System.out.println(message + arg);
         }
+
 
     }
 }

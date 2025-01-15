@@ -15,7 +15,7 @@ public class CustomerRepository extends AbstractRepository {
     /**
      * Получить всех покупателей.
      *
-     * @return Копия карты с данными о покупателях.
+     * @return Копия мапы с данными о покупателях.
      */
     public Map<Integer, Customer> getAllCustomers() {
         return new HashMap<>(data);
@@ -25,13 +25,13 @@ public class CustomerRepository extends AbstractRepository {
      * Загрузить данные из файла.
      *
      * @param o Имя файла для загрузки.
-     * @return null
+     * @return o
      */
     @Override
     public Object load(Object o) {
         if (o instanceof String) {
             deserializeFromFile((String) o);
-            return null;
+            return o;
 
         }
         return null;
@@ -44,11 +44,10 @@ public class CustomerRepository extends AbstractRepository {
      */
     @Override
     public void add(Object o) {
-        if (o instanceof Customer) {
-            Customer customer = (Customer) o;
+        if (o instanceof Customer customer) {
             customer.setId(currentId++);
             data.put(customer.getId(), customer);
-            logger.info("Покупатель добавлен: " + customer);
+            logger.info("Покупатель добавлен: {}", customer);
         }
     }
 
@@ -108,7 +107,6 @@ public class CustomerRepository extends AbstractRepository {
         } catch (IllegalArgumentException e) {
             logger.error("Ошибка типа клиента: ", e);
             throw new RuntimeException("Ошибка типа клиента", e);
-
         }
     }
 }
