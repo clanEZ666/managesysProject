@@ -7,10 +7,12 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CustomerRepository extends AbstractRepository {
+public class CustomerRepository extends AbstractRepository  {
     private static final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final Map<Integer, Customer> data = new HashMap<>();
     private int currentId = 1;
+
+
 
     /**
      * Получить всех покупателей.
@@ -76,6 +78,7 @@ public class CustomerRepository extends AbstractRepository {
             for (Customer customer : data.values()) {
                 writer.write(customer.getId() + "," + customer.getName() + "," + customer.getType());
                 writer.newLine();
+                logger.info("Создание файла");
             }
         } catch (IOException e) {
             logger.error("Ошибка записи в файл: ", e);
@@ -109,4 +112,6 @@ public class CustomerRepository extends AbstractRepository {
             throw new RuntimeException("Ошибка типа клиента", e);
         }
     }
+
+
 }
