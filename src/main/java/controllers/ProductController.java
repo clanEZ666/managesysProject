@@ -6,7 +6,7 @@ import services.ProductService;
 
 import java.util.Scanner;
 import org.slf4j.Logger;
-public class ProductController {
+public class ProductController implements LowController{
     private final static Logger log = LoggerFactory.getLogger(ProductController.class);
     private final Scanner scanner;
 
@@ -17,13 +17,13 @@ public class ProductController {
         this.service = new ProductService(path);
         this.scanner = new Scanner(System.in);
     }
-
+    @Override
     public void start() {
         log.trace("Начало метода ProductController.start()");
-        Messages.START_MESSAGE.soutMassage();
         boolean goOn = true;
         String s;
         while (goOn) {
+            Messages.START_MESSAGE.soutMassage();
             s = scanner.nextLine().trim();
             log.debug("Получено сообщение {}", s);
             switch (s.charAt(0)) {
