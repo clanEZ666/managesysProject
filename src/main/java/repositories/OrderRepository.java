@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class OrderRepository extends AbstractRepository {
     private final String filePath = "orders.txt";
+    private final String idFilePath = "ordersId.txt";
     private Map<Integer, Order> data = new HashMap<>();
 
     @Override
@@ -67,5 +68,39 @@ public class OrderRepository extends AbstractRepository {
             throw new RuntimeException("Заказ не найден");
         }
         return data.get(id);
+    }
+
+    public int getNextId() {
+        int lastId = 0;
+        File idFile = new File(idFilePath);
+
+
+        if (!idFile.exists()) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(idFilePath))) {
+                writer.write("0");
+            } catch (IOException e) {
+                System.err.println("Ошибка создания файла ID: " + e.getMessage());
+            }
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(idFilePath))) {
+            lastId = Integer.parseInt(reader.readLine());
+        } catch (IOException | NumberFormatException e) {
+            lastId = 0;
+        }
+
+
+        int nextId = lastId + 1;
+
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(idFilePath))) {
+            writer.write(String.valueOf(nextId));
+        } catch (IOException e) {
+            System.err.println("Ошибка сохранения нового ID: " + e.getMessage());
+        }
+
+        return nextId;
+
+
     }
 }

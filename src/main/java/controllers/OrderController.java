@@ -36,21 +36,45 @@ public class OrderController {
     }
 
     private void createOrder() {
-        System.out.print("Введите ID заказа: ");
-        int id = scanner.nextInt();
-        System.out.print("Введите ID покупателя: ");
-        int customerId = scanner.nextInt();
-        scanner.nextLine();
+
+        int id = orderService.getNextOrderId();
+
+        int customerId = getIntInput("Введите ID покупателя: ");
+
+        // Получаем список товаров
         System.out.print("Введите ID товаров через запятую: ");
         String productInput = scanner.nextLine();
         List<Integer> productIds = List.of(productInput.split(",")).stream()
                 .map(Integer::parseInt)
                 .toList();
-        System.out.print("Введите статус заказа (NEW, PROCESSING, COMPLETED, CANCELLED): ");
-        String status = scanner.nextLine();
+
+        String status = getStringInput("Введите статус заказа (NEW, PROCESSING, COMPLETED, CANCELLED): ");
 
         orderService.createOrder(id, customerId, productIds, status);
-        System.out.println("Заказ создан.");
+        System.out.println("Заказ с ID " + id + " создан.");
+    }
+
+    private int getIntInput(String prompt) {
+        int input = 0;
+        boolean validInput = false;
+
+        while (!validInput) {
+            System.out.print(prompt);
+            try {
+                input = scanner.nextInt();
+                scanner.nextLine();
+                validInput = true;
+            } catch (Exception e) {
+                System.out.println("Ошибка: введите число, а не буквы или другие символы.");
+                scanner.nextLine();
+            }
+        }
+        return input;
+    }
+
+    private String getStringInput(String prompt) {
+        System.out.print(prompt);
+        return scanner.nextLine();
     }
 
     private void showAllOrders() {

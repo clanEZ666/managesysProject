@@ -30,8 +30,13 @@ public class OrderService {
     public void updateOrderStatus(int id, String status) {
         Order order = orderRepository.findById(id);
         order.setOrderStatus(status);
-        orderRepository.save(null);
+        orderRepository.save(order);
     }
+
+    public int getNextOrderId() {
+        return orderRepository.getNextId();
+    }
+
 
 }
 
