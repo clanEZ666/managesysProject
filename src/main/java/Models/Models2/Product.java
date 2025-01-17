@@ -3,6 +3,8 @@ package Models.Models2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
+
 public class Product {
     private static final Logger log = LoggerFactory.getLogger(Product.class);
     private final int id;
@@ -43,6 +45,19 @@ public class Product {
         log.trace("Начало метода Product.toString()");
         return "Product{id = " + getId() + ", title = " + getTitle() + ", price = " + getPrice() +
                 ", productCategory = " + getProductCategory() + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && Double.compare(price, product.price) == 0 && Objects.equals(title, product.title) && productCategory == product.productCategory;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, price, productCategory);
     }
 
     public enum ProductCategory {
