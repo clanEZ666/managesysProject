@@ -1,8 +1,6 @@
 package repositories;
 
 import Models.Models2.Product;
-import exception.ProductNotFoundException;
-import controllers.ProductController;
 import exception.CorraptedFileDataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ProductRepository {
@@ -50,7 +49,7 @@ public class ProductRepository {
                     saveCurrentId(1);
                 }
             } else {
-                Files.createDirectories(currentIdPath);
+                Files.createDirectories(currentIdPath.getParent());
                 Files.createFile(currentIdPath);
                 saveCurrentId(1);
             }
@@ -82,7 +81,7 @@ public class ProductRepository {
             return sb.toString();
         } else {
             log.warn("Ожидаемый класс - Product, получен класс - {}", o.getClass());
-            return "";
+            return null;
         }
     }
 
@@ -123,6 +122,11 @@ public class ProductRepository {
         }
     }
 
+    /**
+     * Загружает текущий id продукта
+     * @return
+     * @throws CorraptedFileDataException
+     */
     public int loadCurrentId() throws CorraptedFileDataException {
         log.trace("Начало метода loadCurrentId()");
         try {
@@ -142,26 +146,41 @@ public class ProductRepository {
         }
     }
 
+    /**
+     * Сохраняет продукт.
+     * @param o - продукт
+     * @return
+     */
     public boolean save(Object o) {
         log.trace("Начало метода save()");
         boolean ok = false;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(productsPath.toFile(), true))) {
-            writer.write(objectToData(o));
-            ok = true;
-        } catch (IOException e) {
-            log.warn("Ошибка при сохранении в файл products.txt");
+        if (o != null) {
+            if (!Objects.equals(objectToData(o),null)) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(productsPath.toFile(), true))) {
+                    writer.write(objectToData(o));
+                    ok = true;
+                } catch (IOException e) {
+                    log.warn("Ошибка при сохранении в файл products.txt");
+                }
+            }
         }
-
         return ok;
     }
 
-    private void saveCurrentId(int curId) {
+    /**
+     * Сохраняет значение текущего id для продуктов
+     * @param curId
+     */
+    private boolean saveCurrentId(int curId) {
         log.trace("Начало метода saveCurrentId()");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentIdPath.toFile(), true))) {
+        boolean ok = false;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentIdPath.toFile(), false))) {
             writer.write(String.valueOf(curId));
+            ok = true;
         } catch (IOException e) {
             System.out.println("Ошибка при сохранении в файл currentProductId.txt");
         }
+        return ok;
     }
 
 

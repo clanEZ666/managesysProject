@@ -9,14 +9,25 @@ import org.slf4j.Logger;
 public class ProductController implements LowController{
     private final static Logger log = LoggerFactory.getLogger(ProductController.class);
     private final Scanner scanner;
+    private final static String DEFOULT_PATH = "src/main/java/dataPath";
 
     private final ProductService service;
+
+    public ProductController() {
+        this(DEFOULT_PATH);
+    }
 
     public ProductController(String path) {
         log.trace("Создание ProductController");
         this.service = new ProductService(path);
         this.scanner = new Scanner(System.in);
     }
+
+    /**
+     * Запускает основной цикл программы.
+     * Выводит меню и обрабатывает выбор пользователя.
+     * Бесконечно запрашивает действие пользователя пока не будет выбрано "0"
+     */
     @Override
     public void start() {
         log.trace("Начало метода ProductController.start()");
@@ -45,6 +56,9 @@ public class ProductController implements LowController{
         }
     }
 
+    /**
+     * Добавляет продукт по введённым данным
+     */
     public void add() {
         log.trace("Начало метода ProductController.add()");
         System.out.println();
@@ -88,6 +102,9 @@ public class ProductController implements LowController{
         service.add(title, price, category);
     }
 
+    /**
+     * Показывает все продукты в памяти
+     */
     public void show() {
         log.trace("Начало метода ProductController.show()");
         service.showAll();
