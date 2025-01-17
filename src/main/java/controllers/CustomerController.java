@@ -4,7 +4,7 @@ import Models.Models2.Customer;
 import services.CustomerService;
 import java.util.Scanner;
 
-public class CustomerController {
+public class CustomerController implements LowController{
     private final CustomerService customerService;
     private final Scanner scanner;
 
@@ -24,7 +24,7 @@ public class CustomerController {
      * Выводит меню и обрабатывает выбор пользователя.
      * Бесконечно запрашивает действие пользователя пока не будет выбрано "Назад"
      */
-
+    @Override
     public void start() {
 
         while (true) {

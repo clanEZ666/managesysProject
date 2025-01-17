@@ -6,7 +6,7 @@ import services.ProductService;
 
 import java.util.Scanner;
 import org.slf4j.Logger;
-public class ProductController {
+public class ProductController implements LowController{
     private final static Logger log = LoggerFactory.getLogger(ProductController.class);
     private final Scanner scanner;
     private final static String DEFOULT_PATH = "src/main/java/dataPath";
@@ -22,11 +22,13 @@ public class ProductController {
         this.service = new ProductService(path);
         this.scanner = new Scanner(System.in);
     }
+
     /**
      * Запускает основной цикл программы.
      * Выводит меню и обрабатывает выбор пользователя.
      * Бесконечно запрашивает действие пользователя пока не будет выбрано "0"
      */
+    @Override
     public void start() {
         log.trace("Начало метода ProductController.start()");
         boolean goOn = true;
