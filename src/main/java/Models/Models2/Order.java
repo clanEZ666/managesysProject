@@ -1,37 +1,49 @@
 package Models.Models2;
 
+import java.util.List;
+
 public class Order {
-    private int id;
-    private String orderName;
-    private String products;
-    private String orderStatus;
-    private String New;
-    private String Processing;
-    private String Completed;
-    private String Cancelled;
-
-
-    public Order(int id, String orderName, String products, String orderStatus) {
-        this.id = id;
-        this.orderName = orderName;
-        this.products = products;
-        this.orderStatus = orderStatus;
+    public enum OrderStatus {
+        NEW, PROCESSING, COMPLETED, CANCELLED
     }
 
+    private int ID;
+    private String orderName;
+    private List<Integer> products;
+    private OrderStatus orderStatus;
+    private int customerID;
 
-    public String getOrderName() {
-        return orderName;
+    public Order(int id, int customerId, List<Integer> products, OrderStatus orderStatus) {
+        this.ID = id;
+        this.customerID = customerId;
+        this.products = products;
+        this.orderStatus = orderStatus;  // Здесь принимается объект типа OrderStatus
+        this.orderName = "Order " + id;
+    }
+
+    public int getCustomerID() {
+        return customerID;
     }
 
     public int getId() {
-        return id;
+        return ID;
     }
 
-    public String getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public String getProducts() {
+    public List<Integer> getProducts() {
         return products;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{id=" + ID + ", customerID=" + customerID + ", products=" + products +
+                ", status=" + orderStatus + "}";
     }
 }
