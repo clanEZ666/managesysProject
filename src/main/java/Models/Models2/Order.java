@@ -3,32 +3,33 @@ package Models.Models2;
 import java.util.List;
 
 public class Order {
+    public enum OrderStatus {
+        NEW, PROCESSING, COMPLETED, CANCELLED
+    }
+
     private int ID;
     private String orderName;
     private List<Integer> products;
-    private String orderStatus;
+    private OrderStatus orderStatus;
     private int customerID;
 
-
-
-    public Order(int id, int customerId, List<Integer> products, String orderStatus) {
+    public Order(int id, int customerId, List<Integer> products, OrderStatus orderStatus) {
         this.ID = id;
         this.customerID = customerId;
         this.products = products;
-        this.orderStatus = orderStatus;
-        this.orderName = orderName;
+        this.orderStatus = orderStatus;  // Здесь принимается объект типа OrderStatus
+        this.orderName = "Order " + id;
     }
 
     public int getCustomerID() {
         return customerID;
     }
 
-
     public int getId() {
         return ID;
     }
 
-    public String getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
@@ -36,7 +37,7 @@ public class Order {
         return products;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
@@ -44,8 +45,5 @@ public class Order {
     public String toString() {
         return "Order{id=" + ID + ", customerID=" + customerID + ", products=" + products +
                 ", status=" + orderStatus + "}";
-
-
     }
-
 }

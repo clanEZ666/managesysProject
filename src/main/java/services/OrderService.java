@@ -14,7 +14,7 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public void createOrder(int id, int customerId, List<Integer> productIds, String status) {
+    public void createOrder(int id, int customerId, List<Integer> productIds, Order.OrderStatus status) {
         Order order = new Order(id, customerId, productIds, status);
         orderRepository.add(order);
     }
@@ -29,8 +29,13 @@ public class OrderService {
 
     public void updateOrderStatus(int id, String status) {
         Order order = orderRepository.findById(id);
-        order.setOrderStatus(status);
-        orderRepository.save(order);
+        try {
+            Order.OrderStatus newStatus = Order.OrderStatus.valueOf(status.toUpperCase());
+            order.setOrderStatus(newStatus);
+            orderRepository.save(order);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Некорректный статус заказа: " + status);
+        }
     }
 
     public int getNextOrderId() {

@@ -28,10 +28,12 @@ public class OrderRepository extends AbstractRepository {
                     String[] parts = line.split(";");
                     int id = Integer.parseInt(parts[0]);
                     int customerID = Integer.parseInt(parts[1]);
-                    String status = parts[2];
+                    String statusString = parts[2];
+                    Order.OrderStatus status = Order.OrderStatus.valueOf(statusString);
                     List<Integer> productId = Arrays.stream(parts[3].split(","))
                             .map(Integer::parseInt)
                             .toList();
+
 
 
                     Order order = new Order(id, customerID, productId, status);
@@ -78,6 +80,7 @@ public class OrderRepository extends AbstractRepository {
         if (!idFile.exists()) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(idFilePath))) {
                 writer.write("0");
+                System.out.println("Файл ID создан. Установлен начальный ID: 0");
             } catch (IOException e) {
                 System.err.println("Ошибка создания файла ID: " + e.getMessage());
             }
@@ -91,13 +94,24 @@ public class OrderRepository extends AbstractRepository {
 
 
         int nextId = lastId + 1;
-
+        System.out.println("Следующий ID: " + nextId);
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(idFilePath))) {
             writer.write(String.valueOf(nextId));
+            System.out.println("Новый ID сохранён в файл: " + nextId);
         } catch (IOException e) {
             System.err.println("Ошибка сохранения нового ID: " + e.getMessage());
         }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(idFilePath))) {
+            lastId = Integer.parseInt(reader.readLine());
+            System.out.println("Прочитан последний ID из файла: " + lastId);
+        } catch (IOException | NumberFormatException e) {
+            lastId = 0;
+            System.out.println("Ошибка чтения файла ID. Используем начальное значение: " + lastId);
+        }
+
+
 
         return nextId;
 

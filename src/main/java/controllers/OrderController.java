@@ -1,5 +1,6 @@
 package controllers;
 
+import Models.Models2.Order;
 import services.OrderService;
 
 import java.util.List;
@@ -38,18 +39,29 @@ public class OrderController {
     private void createOrder() {
 
         int id = orderService.getNextOrderId();
-
         int customerId = getIntInput("Введите ID покупателя: ");
 
-        // Получаем список товаров
+        // Ввод товаров
         System.out.print("Введите ID товаров через запятую: ");
         String productInput = scanner.nextLine();
         List<Integer> productIds = List.of(productInput.split(",")).stream()
                 .map(Integer::parseInt)
                 .toList();
 
-        String status = getStringInput("Введите статус заказа (NEW, PROCESSING, COMPLETED, CANCELLED): ");
+        // Ввод статуса и преобразование в тип OrderStatus
+        Order.OrderStatus status = null;
+        while (status == null) {
+            String statusInput = getStringInput("Введите статус заказа (NEW, PROCESSING, COMPLETED, CANCELLED): ");
+            try {
+                status = Order.OrderStatus.valueOf(statusInput.toUpperCase());  // Преобразуем строку в OrderStatus
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ошибка: некорректный статус. Пожалуйста, попробуйте снова.");
+            }
+        }
 
+        System.out.println("Создаём заказ с ID: " + id);
+
+        // Создаем заказ
         orderService.createOrder(id, customerId, productIds, status);
         System.out.println("Заказ с ID " + id + " создан.");
     }
