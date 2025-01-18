@@ -1,19 +1,15 @@
 package controllers;
 
-import Models.Models2.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import repositories.CustomerRepository;
-import services.CustomerService;
-import services.ProductService;
 
 import java.util.Scanner;
 
 public class MainController {
     private final static Logger log = LoggerFactory.getLogger(MainController.class);
     static final String DATA_PATH = "src/main/java/dataPath";
-    static final LowController customerController = new CustomerController(new CustomerService(new CustomerRepository())); // Вот это сами чинить будете
-    static final LowController orderController = new OrderController();
+    static final LowController customerController = new CustomerController();
+ //   static final LowController orderController = new OrderController();
     static final LowController productController = new ProductController(DATA_PATH);
 
 
@@ -40,7 +36,7 @@ public class MainController {
                     break;
                 case '3':
                     log.info("сообщение воспринято как 3");
-                    orderController.start();
+                //    orderController.start();
                     break;
                 case '0':
                     log.info("сообщение воспринято не как 1, 2 или 3");

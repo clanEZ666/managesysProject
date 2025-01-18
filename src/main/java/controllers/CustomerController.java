@@ -1,23 +1,28 @@
 package controllers;
 
 import Models.Models2.Customer;
+import repositories.CustomerRepository;
 import services.CustomerService;
 import java.util.Scanner;
 
 public class CustomerController implements LowController{
     private final CustomerService customerService;
     private final Scanner scanner;
+    private final static String DEFOULT_PATH = "src/main/java/dataPath/customers.csv";
 
     /**
-     * Конструктор класса `CustomerController`.
+     * Конструкторы класса `CustomerController`.
      *
-     * @param customerService Сервис для управления покупателями.
+     *
      */
 
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
+
+    public CustomerController() {
+        this.customerService = new CustomerService(new CustomerRepository());
         this.scanner = new Scanner(System.in);
     }
+
+
 
     /**
      * Запускает основной цикл программы.
@@ -36,16 +41,13 @@ public class CustomerController implements LowController{
             switch (choice) {
                 case 1:
                     addCustomer();
-                    break;
-                case 2:
-                    showAllCustomers();
-                    break;
-                case 3:
                     saveCustomers();
                     break;
-                case 4:
+                case 2:
                     loadCustomers();
+                    showAllCustomers();
                     break;
+
                 case 0:
                     Message.EXIT_CUSTOMER_MANAGEMENT.printMessage();
                     return;
@@ -55,13 +57,6 @@ public class CustomerController implements LowController{
         }
     }
 
-    /**
-     * Закрывает сканер ввода для освобождения ресурсов.
-     */
-
-    public void closeScanner() {
-        scanner.close();
-    }
 
     /**
      * Метод для добавления нового покупателя.
@@ -92,8 +87,7 @@ public class CustomerController implements LowController{
      */
 
     private void saveCustomers() {
-        Message.ENTER_FILENAME_FOR_SAVE.printMessage();
-        String filename = scanner.nextLine();
+        String filename = DEFOULT_PATH;
         customerService.saveCustomers(filename);
         Message.DATA_SAVED_TO_FILE.printMessage(filename);
     }
@@ -106,7 +100,7 @@ public class CustomerController implements LowController{
 
     private void loadCustomers() {
         Message.ENTER_FILENAME_FOR_LOAD.printMessage();
-        String filename = scanner.nextLine();
+        String filename = DEFOULT_PATH;
         customerService.loadCustomers(filename);
         Message.DATA_LOADED_FROM_FILE.printMessage(filename);
     }
@@ -131,8 +125,6 @@ public class CustomerController implements LowController{
                         ===== Управление покупателями =====
                         1. Добавить покупателя
                         2. Показать всех покупателей
-                        3. Сохранить покупателей
-                        4. Загрузить покупателей
                         0. Назад"""),
 
         EXIT_CUSTOMER_MANAGEMENT("Выход из управления покупателями."),
