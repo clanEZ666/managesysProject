@@ -6,16 +6,16 @@ import services.OrderService;
 import java.util.List;
 import java.util.Scanner;
 
-public class OrderController {
+public class OrderController implements LowController{
 
     private final OrderService orderService;
     private final Scanner scanner = new Scanner(System.in);
 
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
+    public OrderController() {
+        this.orderService = new OrderService();
     }
 
-    public void manageOrders() {
+    public void start() {
         while (true) {
             System.out.println("===== Управление заказами =====");
             System.out.println("1. Создать заказ");
