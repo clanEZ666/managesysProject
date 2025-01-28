@@ -19,6 +19,7 @@ public class OrderRepository extends AbstractRepository {
         data.put(order.getId(), order);
     }
 
+
     @Override
     public Map<Integer, Order> load(Object o) {
         if (data.isEmpty()) {
